@@ -13,7 +13,7 @@ function LeftSideBarComponent() {
     createNewChannel,
     setSelectedChannel,
   } = React.useContext(ChannelsContext);
-  const { setPosts } = React.useContext(PostContext);
+  const { setPosts, setSelectedPost } = React.useContext(PostContext);
 
   React.useEffect(() => {
     fetchChannelsData(user.email.split("@")[1]);
@@ -21,8 +21,10 @@ function LeftSideBarComponent() {
   }, []);
 
   return (
-    <div>
-      <h2 className="currentProviderName">@{user.email.split("@")[1]}</h2>
+    <div className="leftSidebar">
+      <h2 className="currentProviderName">
+        Provider: @{user.email.split("@")[1]}
+      </h2>
       <ul className="channelList">
         {channels &&
           channels.map((channel) => (
@@ -30,6 +32,7 @@ function LeftSideBarComponent() {
               key={channel.id}
               onClick={() => {
                 setSelectedChannel(channel);
+                setSelectedPost(null);
                 setPosts([]);
               }}
             >
@@ -41,7 +44,9 @@ function LeftSideBarComponent() {
       <AddNewSomething
         func={createNewChannel}
         otherFuncOptions={[user.email.split("@")[1]]}
+        placeholder={"Enter Channel name..."}
         btnText={"Create Channel"}
+        className={"addNewChannel"}
       />
     </div>
   );

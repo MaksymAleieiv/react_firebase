@@ -5,12 +5,15 @@ import CreatePostForm from "./CreatePostForm";
 import CreateReplyForm from "./CreateReplyForm";
 
 function ChannelComponent() {
-  const { posts, setPosts, fetchAllPostsInChannel, unsubscribe } =
-    React.useContext(PostContext);
+  const {
+    posts,
+    fetchAllPostsInChannel,
+    unsubscribe,
+    selectedPost,
+    setSelectedPost,
+  } = React.useContext(PostContext);
 
   const { selectedChannel } = React.useContext(ChannelsContext);
-
-  const [selectedPost, setSelectedPost] = React.useState(null);
 
   const [showFeed, setShowFeed] = React.useState(true);
 
@@ -18,10 +21,12 @@ function ChannelComponent() {
     if (selectedChannel) {
       if (typeof unsubscribe.current === "function") unsubscribe.current();
       fetchAllPostsInChannel(selectedChannel.id);
+      setShowFeed(true);
     }
   }, [selectedChannel]);
 
-  if (!selectedChannel) return <>Select a channel</>;
+  if (!selectedChannel)
+    return <div className="fs-6em">Please, select a channel</div>;
 
   if (selectedPost)
     return (
@@ -34,17 +39,30 @@ function ChannelComponent() {
   return (
     <div>
       {showFeed ? (
-        <div>
-          <button onClick={() => setShowFeed(false)}>Add New Post</button>
-          {posts &&
-            posts.map((post) => (
-              <div key={post.id} onClick={() => setSelectedPost(post)}>
-                <h4>
-                  {post.userName} : {post.subject}
-                </h4>
-                <h6>{post.body}</h6>
-              </div>
-            ))}
+        <div className="feed">
+          {posts && posts.length === 0 && (
+            <div className="fs-3em">
+              This channel doesn't have any posts. Be first to post something!
+            </div>
+          )}
+          <ul className="postsFeed">
+            {posts &&
+              posts.map((post) => (
+                <li
+                  key={post.id}
+                  onClick={() => setSelectedPost(post)}
+                  className="post"
+                >
+                  <h4>
+                    {post.subject}: <span>{post.userName}</span>
+                  </h4>
+                  <h6>{post.body}</h6>
+                </li>
+              ))}
+          </ul>
+          <button className="AddNewPostBtn" onClick={() => setShowFeed(false)}>
+            Add New Post
+          </button>
         </div>
       ) : (
         <CreatePostForm

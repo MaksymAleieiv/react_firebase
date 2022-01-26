@@ -6,7 +6,9 @@ function ChannelsPage() {
   return (
     <div className="container">
       <LeftSideBarComponent />
-      <ChannelComponent />
+      <div className="channelContainer">
+        <ChannelComponent />
+      </div>
     </div>
   );
 }

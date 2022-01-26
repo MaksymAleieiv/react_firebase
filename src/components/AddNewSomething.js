@@ -1,9 +1,20 @@
 import React from "react";
 
-function AddNewSomething({ func, otherFuncOptions, btnText }) {
+function AddNewSomething({
+  func,
+  otherFuncOptions,
+  placeholder = "",
+  btnText = "Confirm",
+  className = "addNewSomething",
+}) {
   const [newSomething, setNewSomething] = React.useState("");
   return (
-    <div>
+    <div className={className}>
+      <input
+        placeholder={placeholder}
+        value={newSomething}
+        onChange={(e) => setNewSomething(e.target.value)}
+      ></input>
       <button
         onClick={() => {
           func(newSomething, ...otherFuncOptions);
@@ -12,10 +23,6 @@ function AddNewSomething({ func, otherFuncOptions, btnText }) {
       >
         {btnText}
       </button>
-      <input
-        value={newSomething}
-        onChange={(e) => setNewSomething(e.target.value)}
-      ></input>
     </div>
   );
 }

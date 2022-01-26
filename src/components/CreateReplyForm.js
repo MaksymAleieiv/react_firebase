@@ -21,6 +21,7 @@ function CreateReplyForm({ selectedPost, setSelectedPost }) {
   return (
     <div>
       <button
+        className="goBackBtn"
         onClick={() => {
           setSelectedPost(null);
           setReplies([]);
@@ -28,18 +29,24 @@ function CreateReplyForm({ selectedPost, setSelectedPost }) {
       >
         Go Back
       </button>
-      <h3>{selectedPost.subject}</h3>
-      {selectedPost.userName} : {selectedPost.body}
-      {replies &&
-        replies.map((reply) => (
-          <div>
-            {reply.userName} : {reply.body}
-          </div>
-        ))}
+      <h3 className="fs-3_5em">{selectedPost.subject}</h3>
+      <div className="pb">
+        {selectedPost.body}: <span>{selectedPost.userName}</span>
+      </div>
+      <ul className="postsFeed">
+        {replies &&
+          replies.map((reply) => (
+            <li>
+              {reply.userName} : {reply.body}
+            </li>
+          ))}
+      </ul>
       <AddNewSomething
         func={addReplyToPost}
         otherFuncOptions={[selectedPost.id, user.name]}
+        placeholder={"Your reply..."}
         btnText={"Add Reply"}
+        className={"addNewReply"}
       />
     </div>
   );

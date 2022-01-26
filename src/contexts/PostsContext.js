@@ -7,6 +7,7 @@ export const PostContext = React.createContext(null);
 
 const PostContextProvider = ({ children }) => {
   const [posts, setPosts] = React.useState([]);
+  const [selectedPost, setSelectedPost] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const unsubscribe = React.useRef(null);
 
@@ -46,6 +47,8 @@ const PostContextProvider = ({ children }) => {
       value={{
         posts,
         setPosts,
+        selectedPost,
+        setSelectedPost,
         isLoading,
         addPostInChannel,
         fetchAllPostsInChannel,
