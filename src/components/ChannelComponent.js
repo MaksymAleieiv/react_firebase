@@ -1,20 +1,27 @@
 import React from "react";
+import { ChannelsContext } from "../contexts/ChannelsContext";
 import { PostContext } from "../contexts/PostsContext";
 import CreatePostForm from "./CreatePostForm";
 import CreateReplyForm from "./CreateReplyForm";
 
-function ChannelComponent({ channel }) {
-  const { posts, fetchAllPostsInChannel, unsubscribe } =
+function ChannelComponent() {
+  const { posts, setPosts, fetchAllPostsInChannel, unsubscribe } =
     React.useContext(PostContext);
 
-  React.useEffect(() => {
-    if (typeof unsubscribe.current === "function") unsubscribe.current();
-    fetchAllPostsInChannel(channel.id);
-  }, [channel]);
+  const { selectedChannel } = React.useContext(ChannelsContext);
 
   const [selectedPost, setSelectedPost] = React.useState(null);
 
   const [showFeed, setShowFeed] = React.useState(true);
+
+  React.useEffect(() => {
+    if (selectedChannel) {
+      if (typeof unsubscribe.current === "function") unsubscribe.current();
+      fetchAllPostsInChannel(selectedChannel.id);
+    }
+  }, [selectedChannel]);
+
+  if (!selectedChannel) return <>Select a channel</>;
 
   if (selectedPost)
     return (
@@ -40,7 +47,10 @@ function ChannelComponent({ channel }) {
             ))}
         </div>
       ) : (
-        <CreatePostForm setShowFeed={setShowFeed} channelId={channel.id} />
+        <CreatePostForm
+          setShowFeed={setShowFeed}
+          channelId={selectedChannel.id}
+        />
       )}
     </div>
   );

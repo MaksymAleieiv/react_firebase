@@ -8,6 +8,7 @@ export const ChannelsContext = React.createContext(null);
 const ChannelsContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [channels, setChannels] = React.useState([]);
+  const [selectedChannel, setSelectedChannel] = React.useState(null);
   const unsubscribe = React.useRef(null);
 
   const app = initializeApp({
@@ -48,6 +49,8 @@ const ChannelsContextProvider = ({ children }) => {
         isLoading,
         channels,
         unsubscribe,
+        selectedChannel,
+        setSelectedChannel,
         createNewChannel,
         fetchChannelsData,
       }}

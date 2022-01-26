@@ -30,7 +30,7 @@ const RepliesContextProvider = ({ children }) => {
     unsubscribe.current = unsub;
   };
 
-  const addReplyToPost = async (postId, body, userName) => {
+  const addReplyToPost = async (body, postId, userName) => {
     let replyData = {
       id: Date.now(),
       body,
@@ -45,6 +45,7 @@ const RepliesContextProvider = ({ children }) => {
       value={{
         replies,
         isLoading,
+        setReplies,
         addReplyToPost,
         fetchAllRepliesToPost,
         unsubscribe,

@@ -45,6 +45,7 @@ const PostContextProvider = ({ children }) => {
     <PostContext.Provider
       value={{
         posts,
+        setPosts,
         isLoading,
         addPostInChannel,
         fetchAllPostsInChannel,

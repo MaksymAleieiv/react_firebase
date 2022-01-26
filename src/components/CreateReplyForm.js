@@ -1,13 +1,17 @@
 import React from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { RepliesContext } from "../contexts/RepliesContext";
+import AddNewSomething from "./AddNewSomething";
 
 function CreateReplyForm({ selectedPost, setSelectedPost }) {
-  const { replies, addReplyToPost, fetchAllRepliesToPost, unsubscribe } =
-    React.useContext(RepliesContext);
+  const {
+    replies,
+    setReplies,
+    addReplyToPost,
+    fetchAllRepliesToPost,
+    unsubscribe,
+  } = React.useContext(RepliesContext);
   const { user } = React.useContext(AuthContext);
-
-  const [subject, setSubject] = React.useState("");
 
   React.useEffect(() => {
     if (typeof unsubscribe.current === "function") unsubscribe.current();
@@ -16,7 +20,14 @@ function CreateReplyForm({ selectedPost, setSelectedPost }) {
 
   return (
     <div>
-      <button onClick={() => setSelectedPost(null)}>Go Back</button>
+      <button
+        onClick={() => {
+          setSelectedPost(null);
+          setReplies([]);
+        }}
+      >
+        Go Back
+      </button>
       <h3>{selectedPost.subject}</h3>
       {selectedPost.userName} : {selectedPost.body}
       {replies &&
@@ -25,15 +36,11 @@ function CreateReplyForm({ selectedPost, setSelectedPost }) {
             {reply.userName} : {reply.body}
           </div>
         ))}
-      <input
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-      ></input>
-      <button
-        onClick={() => addReplyToPost(selectedPost.id, subject, user.name)}
-      >
-        Add Reply
-      </button>
+      <AddNewSomething
+        func={addReplyToPost}
+        otherFuncOptions={[selectedPost.id, user.name]}
+        btnText={"Add Reply"}
+      />
     </div>
   );
 }
