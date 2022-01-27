@@ -44,6 +44,13 @@ const AuthContextProvider = ({ children }) => {
     setIsLoading(false);
   };
 
+  const signOut = async () => {
+    auth.signOut().finally(() => {
+      setIsLoggedIn(false);
+      setUser(null);
+    })
+  };
+
   const fetchUserData = () => {
     auth.onAuthStateChanged((user) => {
       if (user !== null) {
@@ -64,6 +71,7 @@ const AuthContextProvider = ({ children }) => {
         isLoading,
         loginWithGoogle,
         fetchUserData,
+        signOut
       }}
     >
       {children}

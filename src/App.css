@@ -213,3 +213,30 @@
   width: 64px;
   height: 32px;
 }
+
+.loginBtnHolder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loginBtn {
+  transition: all 0.3s ease-out;
+  border: 2px solid royalblue;
+  cursor: pointer;
+  width: 420px;
+  height: 124px;
+  margin:auto;
+  font-size: 2em;
+}
+
+.loginBtn:hover {
+  transition: all 0.3s ease-out;
+  background: #d8d8d8;
+}
+
+.signOutBtn {
+  cursor: pointer;
+}

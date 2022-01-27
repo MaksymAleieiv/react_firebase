@@ -5,7 +5,7 @@ import { PostContext } from "../contexts/PostsContext";
 import AddNewSomething from "./AddNewSomething";
 
 function LeftSideBarComponent() {
-  const { user } = React.useContext(AuthContext);
+  const { user, signOut } = React.useContext(AuthContext);
   const {
     channels,
     unsubscribe,
@@ -22,6 +22,7 @@ function LeftSideBarComponent() {
 
   return (
     <div className="leftSidebar">
+      <button className="signOutBtn" onClick={signOut}>Sign Out</button>
       <h2 className="currentProviderName">
         Provider: @{user.email.split("@")[1]}
       </h2>
