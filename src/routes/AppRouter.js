@@ -9,7 +9,7 @@ function AppRouter() {
   const { fetchUserData, isLoggedIn, isLoading } =
     React.useContext(AuthContext);
   React.useEffect(() => {
-    fetchUserData();
+    if(localStorage.getItem("auth") === "true") fetchUserData();
   }, []);
 
   if (isLoading) return <>Loading...</>;

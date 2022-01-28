@@ -36,7 +36,7 @@ function CreateReplyForm({ selectedPost, setSelectedPost }) {
       <ul className="postsFeed">
         {replies &&
           replies.map((reply) => (
-            <li>
+            <li key={reply.id}>
               {reply.userName} : {reply.body}
             </li>
           ))}

@@ -21,12 +21,12 @@ function CreatePostForm({ setShowFeed, channelId }) {
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          placeholder={"Subject"}
+          placeholder={"Subject..."}
         ></input>
         <input
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          placeholder={"Body"}
+          placeholder={"Body..."}
         ></input>
         <button
           onClick={() => {

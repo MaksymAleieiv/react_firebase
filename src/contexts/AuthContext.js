@@ -9,7 +9,7 @@ export const AuthContext = React.createContext(null);
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = React.useState(null);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const app = initializeApp({
     apiKey: "AIzaSyBF34IAiCdTu4WoEUC1Qk3kfunIU-z54dc",
@@ -36,10 +36,12 @@ const AuthContextProvider = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const { user } = await signInWithPopup(auth, provider);
     if (user) {
+      window.localStorage.setItem("auth", "true")
       let userData = googleAuthDataToUserData(user);
       setUser(userData);
       FirebaseService.addCurrentUserToDB(firestore, userData);
       setIsLoggedIn(true);
+      document.title = userData.name
     }
     setIsLoading(false);
   };
@@ -48,18 +50,21 @@ const AuthContextProvider = ({ children }) => {
     auth.signOut().finally(() => {
       setIsLoggedIn(false);
       setUser(null);
+      document.title = "Login"
     })
   };
 
   const fetchUserData = () => {
-    auth.onAuthStateChanged((user) => {
-      if (user !== null) {
-        let userData = googleAuthDataToUserData(user);
-        setUser(userData);
-        setIsLoggedIn(true);
-      }
-      setIsLoading(false);
-    });
+      let unsub = auth.onAuthStateChanged((user) => {
+        if (user !== null) {
+          let userData = googleAuthDataToUserData(user);
+            document.title = userData.name
+            setUser(userData);
+            setIsLoggedIn(true);
+            unsub()
+        }
+        setIsLoading(false);
+      })
   };
 
   return (

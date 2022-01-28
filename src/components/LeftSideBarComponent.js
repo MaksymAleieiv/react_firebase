@@ -1,7 +1,6 @@
 import React from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { ChannelsContext } from "../contexts/ChannelsContext";
-import { PostContext } from "../contexts/PostsContext";
 import AddNewSomething from "./AddNewSomething";
 
 function LeftSideBarComponent() {
@@ -13,7 +12,6 @@ function LeftSideBarComponent() {
     createNewChannel,
     setSelectedChannel,
   } = React.useContext(ChannelsContext);
-  const { setPosts, setSelectedPost } = React.useContext(PostContext);
 
   React.useEffect(() => {
     fetchChannelsData(user.email.split("@")[1]);
@@ -22,7 +20,10 @@ function LeftSideBarComponent() {
 
   return (
     <div className="leftSidebar">
-      <button className="signOutBtn" onClick={signOut}>Sign Out</button>
+      <button className="signOutBtn" onClick={() => {
+        signOut();
+        setSelectedChannel(null)
+      }}>Sign Out</button>
       <h2 className="currentProviderName">
         Provider: @{user.email.split("@")[1]}
       </h2>
@@ -33,8 +34,6 @@ function LeftSideBarComponent() {
               key={channel.id}
               onClick={() => {
                 setSelectedChannel(channel);
-                setSelectedPost(null);
-                setPosts([]);
               }}
             >
               {channel.name}

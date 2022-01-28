@@ -3,6 +3,8 @@ import { ChannelsContext } from "../contexts/ChannelsContext";
 import { PostContext } from "../contexts/PostsContext";
 import CreatePostForm from "./CreatePostForm";
 import CreateReplyForm from "./CreateReplyForm";
+import { RepliesContext } from "../contexts/RepliesContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 function ChannelComponent() {
   const {
@@ -11,9 +13,12 @@ function ChannelComponent() {
     unsubscribe,
     selectedPost,
     setSelectedPost,
+    setPosts
   } = React.useContext(PostContext);
+  const { setReplies } = React.useContext(RepliesContext);
 
   const { selectedChannel } = React.useContext(ChannelsContext);
+  const { user } = React.useContext(AuthContext);
 
   const [showFeed, setShowFeed] = React.useState(true);
 
@@ -22,8 +27,11 @@ function ChannelComponent() {
       if (typeof unsubscribe.current === "function") unsubscribe.current();
       fetchAllPostsInChannel(selectedChannel.id);
       setShowFeed(true);
+      setSelectedPost(null)
+      setPosts([]);
+      setReplies([]);
     }
-  }, [selectedChannel]);
+  }, [selectedChannel, user]);
 
   if (!selectedChannel)
     return <div className="fs-6em">Please, select a channel</div>;
@@ -41,7 +49,7 @@ function ChannelComponent() {
       {showFeed ? (
         <div className="feed">
           {posts && posts.length === 0 && (
-            <div className="fs-3em">
+            <div className="fs-2_5em">
               This channel doesn't have any posts. Be first to post something!
             </div>
           )}

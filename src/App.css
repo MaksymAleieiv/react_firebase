@@ -55,16 +55,19 @@
   font-size: 6em;
 }
 
-.fs-3em {
-  font-size: 3em;
-}
-
 .fs-3_5em {
   text-align: center;
   font-size: 3.5em;
   margin-bottom: 16px;
 }
 
+.fs-3em {
+  font-size: 3em;
+}
+
+.fs-2_5em {
+  font-size: 2.5em;
+}
 .feed {
   display: flex;
   flex-direction: column;
@@ -153,6 +156,7 @@
 .addNewChannel {
   display: flex;
   height: 48px;
+  margin-top: 32px;
 }
 
 .addNewChannel input {
@@ -192,6 +196,10 @@
   outline: none;
   font-size: 3em;
   padding-left: 12px;
+}
+
+.addNewPost input:focus {
+  color: black;
 }
 
 .addNewPost button {
@@ -238,5 +246,8 @@
 }
 
 .signOutBtn {
+  cursor: pointer;
+  width: 64px;
+  height: 32px;
   cursor: pointer;
 }
